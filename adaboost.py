@@ -6,7 +6,6 @@ import math
 
 
 class AdaBoost(object):
-
     """Docstring for AdaBoost. """
 
     def __init__(self, classifier):
@@ -24,7 +23,7 @@ class AdaBoost(object):
             errorRate = clf.getEin() / sum(u)
             prediction = clf.predict(X)
             scalingFactor = math.sqrt((1 - errorRate / errorRate))
-            u = scalingFactor * (prediction != y) * u +\
+            u = (prediction != y) * u * scalingFactor +\
                 (prediction == y) * u / scalingFactor
 
             self.alphas.append(math.log(scalingFactor))
@@ -33,5 +32,5 @@ class AdaBoost(object):
 
     def predict(self, X):
         ys = np.array([g.predict(X) for g in self.gs])
-        y = np.where(np.dot(ys, self.alphas) > 0, 1, -1)
+        y = np.where(ys.T.dot(self.alphas) > 0, 1, -1)
         return y

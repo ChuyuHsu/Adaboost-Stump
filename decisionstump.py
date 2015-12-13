@@ -14,10 +14,10 @@ class DecisionStump(object):
         self.__width = None # number of features in a data instance
         self.__i = None # index of feature
 
-    def predict(X):
+    def predict(self, X):
         return self.__predict(X, self.__i, self.__theta, self.__sign)
 
-    def __predict(X, i, theta, sign):
+    def __predict(self, X, i, theta, sign):
         if np.shape(X) != self.__width:
             raise Error("Features of data doesn't fit that of the training data")
 
@@ -46,7 +46,8 @@ class DecisionStump(object):
 
         best = min(stumps, key=lambda s: s[3])
         # (i of feature, sign, theta, Ein)
-        return best
+        self.__i, self.__sign, self.__theta, self.__Ein = best
+        return self
 
 
     def __getStump(self, x, y, u):
@@ -86,22 +87,6 @@ class DecisionStump(object):
         elif target_theta == float('-inf'):
             target_theta = -1.0
 
-        # scalingFactor = 0.5
-        # errorRate = 0
-        # if sign == 1:
-        #     errorRate = sum((np.where(x > target_theta, 1, -1) != y) * u) /\
-        #         sum(u)
-        #     scalingFactor = math.sqrt((1 - errorRate / errorRate))
-        #     u = scalingFactor * (np.where(x > target_theta, 1, -1) != y) * u +\
-        #         (np.where(x > target_theta, 1, -1) == y) * u / scalingFactor
-        # else:
-        #     errorRate = sum((np.where(x < target_theta, 1, -1) != y) * u) /\
-        #         sum(u)
-        #     scalingFactor = math.sqrt((1 - errorRate / errorRate))
-        #     u = scalingFactor * (np.where(x < target_theta, 1, -1) != y) * u +\
-        #         (np.where(x < target_theta, 1, -1) == y) * u / scalingFactor
-
-        # alpha = math.log(scalingFactor, math.e)
         return (sign, theta, Ein)
 
     def getEin():
