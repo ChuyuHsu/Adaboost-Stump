@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import numpy as np
-from decisionstump import DecisionStump
 import math
 
 
@@ -18,7 +17,7 @@ class AdaBoost(object):
         u = np.ones(X.shape[0]) / X.shape[0]
 
         for t in xrange(iteration):
-            clf = DecisionStump().fit(X, y, u)
+            clf = self.___classifier().fit(X, y, u)
 
             errorRate = clf.getEin() / sum(u)
             prediction = clf.predict(X)
